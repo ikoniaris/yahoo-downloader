@@ -1,0 +1,5 @@
+YahooDownloader/bin/
+YahooDownloader/obj/
+YahooDownloader.sln.DotSettings.user
+*.psess
+*.suo
