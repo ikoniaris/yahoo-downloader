@@ -78,15 +78,15 @@ namespace YahooDownloader
                     if (downloadCompanyProfileCheckBox.Checked ||
                         downloadCompanyQuotesCheckBox.Checked)
                     {
-                        _topCompanyIDs = await GetTopCompanyIDs(token);
+                        _companyIDs = await GetCompanyIds(token);
                         if (downloadMissingTopStocksCheckBox.Checked)
                         {
                             _frozenCompanyProfileIDs = new SortedSet<string>(
-                                await GetCompanyIDs("company_profile", token));
+                                await GetCompanyIDsFromTable(tablePrefixTextBox.Text + "company_profile", token));
                             _frozenCompanyStatisticsIDs = new SortedSet<string>(
-                                await GetCompanyIDs("company_valuation_measures", token));
+                                await GetCompanyIDsFromTable(tablePrefixTextBox.Text + "company_valuation_measures", token));
                             _frozenCompanyQuotesIDs = new SortedSet<string>(
-                                await GetCompanyIDs("company_quotes", token));
+                                await GetCompanyIDsFromTable(tablePrefixTextBox.Text + "company_quotes", token));
                         }
                         else
                         {
@@ -94,10 +94,9 @@ namespace YahooDownloader
                             _frozenCompanyStatisticsIDs = new SortedSet<string>();
                             _frozenCompanyQuotesIDs = new SortedSet<string>();
                         }
-                        if (_topCompanyIDs == null || _topCompanyIDs.Length == 0)
+                        if (_companyIDs == null || _companyIDs.Length == 0)
                         {
-                            Log("No Top Stocks to be downloaded!");
-                            Log("Make sure that you have downloaded Company IDs and Company Market Quotes.");
+                            Log("No stocks to be downloaded!");
                         }
                         else
                         {
@@ -150,7 +149,7 @@ namespace YahooDownloader
         private CancellationTokenSource _cancelSource;
         private readonly Random _random = new Random();
         private SectorData[] _sectorData;
-        private string[] _topCompanyIDs;
+        private string[] _companyIDs;
         private SortedSet<string> _frozenCompanyProfileIDs;
         private SortedSet<string> _frozenCompanyStatisticsIDs;
         private SortedSet<string> _frozenCompanyQuotesIDs;
@@ -404,28 +403,23 @@ namespace YahooDownloader
         }
 
         /// <summary>
-        /// Returns the array of company IDs selected from the specified table.
+        /// Returns the array of company IDs based on the selected option.
         /// </summary>
-        /// <param name="table">Table to be queried.</param>
         /// <param name="token">Cancellation token.</param>
-        /// <returns>Task for returning the array of selected company IDs.</returns>
-        private async Task<string[]> GetCompanyIDs(string table, CancellationToken token)
+        /// <returns>Task for returning the array of company IDs based on the selected option.</returns>
+        private async Task<string[]> GetCompanyIds(CancellationToken token)
         {
-            try
-            {
-                return await ExecuteColumnQuery(string.Format(Culture,
-                    "SELECT DISTINCT company_id AS id FROM {0}{1} ORDER BY company_id",
-                    tablePrefixTextBox.Text, table), token);
-            }
-            catch (MySqlException exception)
-            {
-                Log(string.Format(Culture,
-                    "MySQL Exception when reading from table: {0}{1}",
-                    tablePrefixTextBox.Text, table));
-                Log(exception);
-                // Return an empty array.
-                return new string[] {};
-            }
+            if (downloadTopStocksRadioButton.Checked)
+                return await GetTopCompanyIDs(token);
+            if (downloadStocksFromTableRadioButton.Checked)
+                return await GetCompanyIDsFromTable(stocksTableNameTextBox.Text, token);
+            if (downloadSelectedStocksRadioButton.Checked)
+                return selectedStocksTextBox.Text.Split(
+                    new[] {' ', '\r', '\n', ','},
+                    StringSplitOptions.RemoveEmptyEntries);
+            Log("Unknown option for downloading company IDs");
+            // Return an empty array.
+            return new string[] {};
         }
 
         /// <summary>
@@ -449,6 +443,28 @@ namespace YahooDownloader
             catch (MySqlException exception)
             {
                 Log("MySQL Exception when reading the top company IDs");
+                Log(exception);
+                // Return an empty array.
+                return new string[] {};
+            }
+        }
+
+        /// <summary>
+        /// Returns the array of company IDs selected from the specified table.
+        /// </summary>
+        /// <param name="table">Table to be queried.</param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>Task for returning the array of selected company IDs.</returns>
+        private async Task<string[]> GetCompanyIDsFromTable(string table, CancellationToken token)
+        {
+            try
+            {
+                return await ExecuteColumnQuery(string.Format(Culture,
+                    "SELECT DISTINCT company_id AS id FROM {0} ORDER BY company_id", table), token);
+            }
+            catch (MySqlException exception)
+            {
+                Log(string.Format(Culture, "MySQL Exception when reading from table: {0}", table));
                 Log(exception);
                 // Return an empty array.
                 return new string[] {};
@@ -656,7 +672,7 @@ namespace YahooDownloader
                 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Company Trading Info'",
                 tablePrefixTextBox.Text), token);
             const int chunkSize = 10;
-            var chunks = Chunk(_topCompanyIDs, chunkSize).ToArray();
+            var chunks = Chunk(_companyIDs, chunkSize).ToArray();
             var cpd = new CompanyProfileDownload();
             var csd = new CompanyStatisticsDownload();
             var companyProfileDataList = new List<CompanyProfileData>(chunkSize);
@@ -890,7 +906,7 @@ namespace YahooDownloader
                 VALUES", tablePrefixTextBox.Text);
             const int chunkSize = 10;
             var chunks = Chunk(
-                from company in _topCompanyIDs
+                from company in _companyIDs
                 where !_frozenCompanyQuotesIDs.Contains(company)
                 select company, chunkSize).ToArray();
             var hqd = new HistQuotesDownload();

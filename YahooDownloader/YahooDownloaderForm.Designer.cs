@@ -40,10 +40,10 @@
             this.hostTextBox = new System.Windows.Forms.TextBox();
             this.hostLabel = new System.Windows.Forms.Label();
             this.downloadGroupBox = new System.Windows.Forms.GroupBox();
+            this.downloadMissingTopStocksCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadCompanyQuotesCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadCompanyProfileCheckBox = new System.Windows.Forms.CheckBox();
             this.topStocksNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.topStocksLabel = new System.Windows.Forms.Label();
             this.downloadCompanyMarketQuotesCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadIndustryMarketQuotesCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadSectorMarketQuotesCheckBox = new System.Windows.Forms.CheckBox();
@@ -54,7 +54,11 @@
             this.logGroupBox = new System.Windows.Forms.GroupBox();
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.downloadMissingTopStocksCheckBox = new System.Windows.Forms.CheckBox();
+            this.downloadTopStocksRadioButton = new System.Windows.Forms.RadioButton();
+            this.downloadStocksFromTableRadioButton = new System.Windows.Forms.RadioButton();
+            this.stocksTableNameTextBox = new System.Windows.Forms.TextBox();
+            this.downloadSelectedStocksRadioButton = new System.Windows.Forms.RadioButton();
+            this.selectedStocksTextBox = new System.Windows.Forms.TextBox();
             this.mysqlGroupBox.SuspendLayout();
             this.downloadGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.topStocksNumericUpDown)).BeginInit();
@@ -63,6 +67,8 @@
             // 
             // mysqlGroupBox
             // 
+            this.mysqlGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mysqlGroupBox.Controls.Add(this.tablePrefixTextBox);
             this.mysqlGroupBox.Controls.Add(this.tablePrefixLabel);
             this.mysqlGroupBox.Controls.Add(this.databaseTextBox);
@@ -176,11 +182,17 @@
             // 
             // downloadGroupBox
             // 
+            this.downloadGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadGroupBox.Controls.Add(this.selectedStocksTextBox);
+            this.downloadGroupBox.Controls.Add(this.downloadSelectedStocksRadioButton);
+            this.downloadGroupBox.Controls.Add(this.stocksTableNameTextBox);
+            this.downloadGroupBox.Controls.Add(this.downloadStocksFromTableRadioButton);
+            this.downloadGroupBox.Controls.Add(this.downloadTopStocksRadioButton);
             this.downloadGroupBox.Controls.Add(this.downloadMissingTopStocksCheckBox);
             this.downloadGroupBox.Controls.Add(this.downloadCompanyQuotesCheckBox);
             this.downloadGroupBox.Controls.Add(this.downloadCompanyProfileCheckBox);
             this.downloadGroupBox.Controls.Add(this.topStocksNumericUpDown);
-            this.downloadGroupBox.Controls.Add(this.topStocksLabel);
             this.downloadGroupBox.Controls.Add(this.downloadCompanyMarketQuotesCheckBox);
             this.downloadGroupBox.Controls.Add(this.downloadIndustryMarketQuotesCheckBox);
             this.downloadGroupBox.Controls.Add(this.downloadSectorMarketQuotesCheckBox);
@@ -190,20 +202,30 @@
             this.downloadGroupBox.Controls.Add(this.startButton);
             this.downloadGroupBox.Location = new System.Drawing.Point(12, 168);
             this.downloadGroupBox.Name = "downloadGroupBox";
-            this.downloadGroupBox.Size = new System.Drawing.Size(660, 120);
+            this.downloadGroupBox.Size = new System.Drawing.Size(660, 220);
             this.downloadGroupBox.TabIndex = 1;
             this.downloadGroupBox.TabStop = false;
             this.downloadGroupBox.Text = "Download";
+            // 
+            // downloadMissingTopStocksCheckBox
+            // 
+            this.downloadMissingTopStocksCheckBox.AutoSize = true;
+            this.downloadMissingTopStocksCheckBox.Location = new System.Drawing.Point(9, 191);
+            this.downloadMissingTopStocksCheckBox.Name = "downloadMissingTopStocksCheckBox";
+            this.downloadMissingTopStocksCheckBox.Size = new System.Drawing.Size(143, 17);
+            this.downloadMissingTopStocksCheckBox.TabIndex = 13;
+            this.downloadMissingTopStocksCheckBox.Text = "Only Missing Top Stocks";
+            this.downloadMissingTopStocksCheckBox.UseVisualStyleBackColor = true;
             // 
             // downloadCompanyQuotesCheckBox
             // 
             this.downloadCompanyQuotesCheckBox.AutoSize = true;
             this.downloadCompanyQuotesCheckBox.Checked = true;
             this.downloadCompanyQuotesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.downloadCompanyQuotesCheckBox.Location = new System.Drawing.Point(170, 95);
+            this.downloadCompanyQuotesCheckBox.Location = new System.Drawing.Point(9, 168);
             this.downloadCompanyQuotesCheckBox.Name = "downloadCompanyQuotesCheckBox";
             this.downloadCompanyQuotesCheckBox.Size = new System.Drawing.Size(60, 17);
-            this.downloadCompanyQuotesCheckBox.TabIndex = 9;
+            this.downloadCompanyQuotesCheckBox.TabIndex = 12;
             this.downloadCompanyQuotesCheckBox.Text = "Quotes";
             this.downloadCompanyQuotesCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -212,10 +234,10 @@
             this.downloadCompanyProfileCheckBox.AutoSize = true;
             this.downloadCompanyProfileCheckBox.Checked = true;
             this.downloadCompanyProfileCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.downloadCompanyProfileCheckBox.Location = new System.Drawing.Point(9, 95);
+            this.downloadCompanyProfileCheckBox.Location = new System.Drawing.Point(9, 145);
             this.downloadCompanyProfileCheckBox.Name = "downloadCompanyProfileCheckBox";
             this.downloadCompanyProfileCheckBox.Size = new System.Drawing.Size(55, 17);
-            this.downloadCompanyProfileCheckBox.TabIndex = 8;
+            this.downloadCompanyProfileCheckBox.TabIndex = 11;
             this.downloadCompanyProfileCheckBox.Text = "Profile";
             this.downloadCompanyProfileCheckBox.UseVisualStyleBackColor = true;
             // 
@@ -240,15 +262,6 @@
             0,
             0,
             0});
-            // 
-            // topStocksLabel
-            // 
-            this.topStocksLabel.AutoSize = true;
-            this.topStocksLabel.Location = new System.Drawing.Point(6, 71);
-            this.topStocksLabel.Name = "topStocksLabel";
-            this.topStocksLabel.Size = new System.Drawing.Size(65, 13);
-            this.topStocksLabel.TabIndex = 5;
-            this.topStocksLabel.Text = "Top Stocks:";
             // 
             // downloadCompanyMarketQuotesCheckBox
             // 
@@ -318,7 +331,7 @@
             this.stopButton.Location = new System.Drawing.Point(579, 48);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 11;
+            this.stopButton.TabIndex = 15;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -329,7 +342,7 @@
             this.startButton.Location = new System.Drawing.Point(579, 19);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 10;
+            this.startButton.TabIndex = 14;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -340,9 +353,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logGroupBox.Controls.Add(this.logTextBox);
-            this.logGroupBox.Location = new System.Drawing.Point(12, 294);
+            this.logGroupBox.Location = new System.Drawing.Point(12, 394);
             this.logGroupBox.Name = "logGroupBox";
-            this.logGroupBox.Size = new System.Drawing.Size(660, 227);
+            this.logGroupBox.Size = new System.Drawing.Size(660, 177);
             this.logGroupBox.TabIndex = 2;
             this.logGroupBox.TabStop = false;
             this.logGroupBox.Text = "Log";
@@ -360,38 +373,83 @@
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
             this.logTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logTextBox.Size = new System.Drawing.Size(648, 202);
+            this.logTextBox.Size = new System.Drawing.Size(648, 152);
             this.logTextBox.TabIndex = 0;
             // 
             // progressBar
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 527);
+            this.progressBar.Location = new System.Drawing.Point(12, 577);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(660, 23);
             this.progressBar.TabIndex = 3;
             // 
-            // downloadMissingTopStocksCheckBox
+            // downloadTopStocksRadioButton
             // 
-            this.downloadMissingTopStocksCheckBox.AutoSize = true;
-            this.downloadMissingTopStocksCheckBox.Location = new System.Drawing.Point(330, 70);
-            this.downloadMissingTopStocksCheckBox.Name = "downloadMissingTopStocksCheckBox";
-            this.downloadMissingTopStocksCheckBox.Size = new System.Drawing.Size(143, 17);
-            this.downloadMissingTopStocksCheckBox.TabIndex = 7;
-            this.downloadMissingTopStocksCheckBox.Text = "Only Missing Top Stocks";
-            this.downloadMissingTopStocksCheckBox.UseVisualStyleBackColor = true;
+            this.downloadTopStocksRadioButton.AutoSize = true;
+            this.downloadTopStocksRadioButton.Checked = true;
+            this.downloadTopStocksRadioButton.Location = new System.Drawing.Point(9, 69);
+            this.downloadTopStocksRadioButton.Name = "downloadTopStocksRadioButton";
+            this.downloadTopStocksRadioButton.Size = new System.Drawing.Size(83, 17);
+            this.downloadTopStocksRadioButton.TabIndex = 5;
+            this.downloadTopStocksRadioButton.TabStop = true;
+            this.downloadTopStocksRadioButton.Text = "Top Stocks:";
+            this.downloadTopStocksRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // downloadStocksFromTableRadioButton
+            // 
+            this.downloadStocksFromTableRadioButton.AutoSize = true;
+            this.downloadStocksFromTableRadioButton.Location = new System.Drawing.Point(9, 96);
+            this.downloadStocksFromTableRadioButton.Name = "downloadStocksFromTableRadioButton";
+            this.downloadStocksFromTableRadioButton.Size = new System.Drawing.Size(117, 17);
+            this.downloadStocksFromTableRadioButton.TabIndex = 7;
+            this.downloadStocksFromTableRadioButton.Text = "Stocks From Table:";
+            this.downloadStocksFromTableRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // stocksTableNameTextBox
+            // 
+            this.stocksTableNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.stocksTableNameTextBox.Location = new System.Drawing.Point(170, 95);
+            this.stocksTableNameTextBox.Name = "stocksTableNameTextBox";
+            this.stocksTableNameTextBox.Size = new System.Drawing.Size(484, 20);
+            this.stocksTableNameTextBox.TabIndex = 8;
+            this.stocksTableNameTextBox.Text = "sp500_2015";
+            // 
+            // downloadSelectedStocksRadioButton
+            // 
+            this.downloadSelectedStocksRadioButton.AutoSize = true;
+            this.downloadSelectedStocksRadioButton.Location = new System.Drawing.Point(9, 122);
+            this.downloadSelectedStocksRadioButton.Name = "downloadSelectedStocksRadioButton";
+            this.downloadSelectedStocksRadioButton.Size = new System.Drawing.Size(106, 17);
+            this.downloadSelectedStocksRadioButton.TabIndex = 9;
+            this.downloadSelectedStocksRadioButton.Text = "Selected Stocks:";
+            this.downloadSelectedStocksRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // selectedStocksTextBox
+            // 
+            this.selectedStocksTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectedStocksTextBox.Location = new System.Drawing.Point(170, 121);
+            this.selectedStocksTextBox.Multiline = true;
+            this.selectedStocksTextBox.Name = "selectedStocksTextBox";
+            this.selectedStocksTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.selectedStocksTextBox.Size = new System.Drawing.Size(484, 87);
+            this.selectedStocksTextBox.TabIndex = 10;
+            this.selectedStocksTextBox.Text = "AAPL, MSFT, GOOGL, INTC, IBM";
             // 
             // YahooDownloaderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 562);
+            this.ClientSize = new System.Drawing.Size(684, 612);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.logGroupBox);
             this.Controls.Add(this.downloadGroupBox);
             this.Controls.Add(this.mysqlGroupBox);
-            this.MinimumSize = new System.Drawing.Size(700, 500);
+            this.MinimumSize = new System.Drawing.Size(700, 650);
             this.Name = "YahooDownloaderForm";
             this.Text = "Yahoo Downloader";
             this.mysqlGroupBox.ResumeLayout(false);
@@ -432,8 +490,12 @@
         private System.Windows.Forms.CheckBox downloadCompanyQuotesCheckBox;
         private System.Windows.Forms.CheckBox downloadCompanyProfileCheckBox;
         private System.Windows.Forms.NumericUpDown topStocksNumericUpDown;
-        private System.Windows.Forms.Label topStocksLabel;
         private System.Windows.Forms.CheckBox downloadMissingTopStocksCheckBox;
+        private System.Windows.Forms.TextBox selectedStocksTextBox;
+        private System.Windows.Forms.RadioButton downloadSelectedStocksRadioButton;
+        private System.Windows.Forms.TextBox stocksTableNameTextBox;
+        private System.Windows.Forms.RadioButton downloadStocksFromTableRadioButton;
+        private System.Windows.Forms.RadioButton downloadTopStocksRadioButton;
     }
 }
 
